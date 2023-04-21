@@ -34,38 +34,37 @@ public class MeetingRestController {
         }
         return new ResponseEntity<Meeting>(meeting, HttpStatus.OK);
     }
-//
-//    @RequestMapping(value = "", method = RequestMethod.POST)
-//    public ResponseEntity<?> addParticipant(@RequestBody Participant participant) {
-//        if (participantService.findByLogin(participant.getLogin()) != null) {
-//            return new ResponseEntity<String>(
-//                    "Unable to create. A participant with login " + participant.getLogin() + " already exist.",
-//                    HttpStatus.CONFLICT);
-//        }
-//        participantService.add(participant);
-//        return new ResponseEntity<Participant>(participant, HttpStatus.CREATED);
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    public ResponseEntity<?> delete(@PathVariable("id") String login) {
-//        Participant participant = participantService.findByLogin(login);
-//        if (participant == null) {
-//            return new ResponseEntity(HttpStatus.NOT_FOUND);
-//        }
-//        participantService.delete(participant);
-//        return new ResponseEntity<Participant>(HttpStatus.OK);
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public ResponseEntity<?> update(@PathVariable("id") String login, @RequestBody Participant updatedParticipant) {
-//        Participant participant = participantService.findByLogin(login);
-//        if (participant == null) {
-//            return new ResponseEntity(HttpStatus.NOT_FOUND);
-//        }
-////		participant.setPassword(updatedParticipant.getPassword());
-//        updatedParticipant.setLogin(login);
-//        participantService.update(participant);
-//        return new ResponseEntity<Participant>(HttpStatus.OK);
-//    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<?> addMeeting(@RequestBody Meeting meeting) {
+        if (meetingService.findById(meeting.getId()) != null) {
+            return new ResponseEntity<String>(
+                    "Unable to create. A meeting with Id " + meeting.getId() + " already exist.",
+                    HttpStatus.CONFLICT);
+        }
+        meetingService.add(meeting);
+        return new ResponseEntity<Meeting>(meeting, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        Meeting meeting = meetingService.findById(id);
+        if (meeting == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        meetingService.delete(meeting);
+        return new ResponseEntity<Participant>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Meeting updatedMeeting) {
+        Meeting meeting = meetingService.findById(id);
+        if (meeting == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        updatedMeeting.setId(id);
+        meetingService.update(meeting);
+        return new ResponseEntity<Meeting>(HttpStatus.OK);
+    }
 }
 
